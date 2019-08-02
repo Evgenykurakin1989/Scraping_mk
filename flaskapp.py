@@ -7,8 +7,10 @@ from urllib.parse import urlparse, parse_qs
 path = os.path.dirname(__file__)
 app = Flask(__name__)
 
+
 def getVal(querydata, name):
     return querydata[name][0] if name in querydata else ''
+
 
 # extract tradenark Ids from html content
 def getTrademarksfromHtml(html):
@@ -21,6 +23,7 @@ def getTrademarksfromHtml(html):
     for row in table_bodys:
         tradeMarkIds.append(row['data-mark-id'])
     return tradeMarkIds
+
 
 # scrap function
 def scrap(url, Count):
@@ -58,6 +61,7 @@ def scrap(url, Count):
 def main():
     return render_template('index.html')
 
+
 @app.route('/getCountofResult', methods=['POST'])
 def cntofResult():
     originUrl = request.form['url']
@@ -68,9 +72,11 @@ def cntofResult():
     Ids = scrap(originUrl, data['count'])
     return json.dumps({"data" : data, "trademarks" :  Ids})
 
+
 @app.route('/mysearch')
 def mysearch():
     return render_template("mysearch.html")
+
 
 if __name__ == '__main__':
     app.run(debug=True)
